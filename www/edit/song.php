@@ -35,7 +35,7 @@
           $bdd->commit();
         } catch (\PDOException $error) {
           $bdd->rollBack();
-          echo '    <script> alert("Error: ' . htmlspecialchars($e->getMessage()) . '") </script>';
+          echo '    <script> alert("Error: ' . htmlspecialchars($error->getMessage()) . '") </script>';
         }
       }
 
@@ -54,7 +54,7 @@
           $bdd->commit();
         } catch (\PDOException $error) {
           $bdd->rollBack();
-          echo '    <script> alert("Error: ' . htmlspecialchars($e->getMessage()) . '") </script>';
+          echo '    <script> alert("Error: ' . htmlspecialchars($error->getMessage()) . '") </script>';
         }
       }
 
@@ -72,8 +72,12 @@
           $req_save_add->execute($params_save_add);
           $bdd->commit();
         } catch (\PDOException $error) {
-          $bdd->rollBack();
-          echo '    <script> alert("A song already has this track number on this CD.") </script>';
+            $bdd->rollBack();
+          if ($error->errorInfo[0] == '23000' and $error->errorInfo[1] == 1062) {
+            echo '    <script> alert("A song already has this track number on this CD.") </script>';
+          } else {
+            echo '    <script> alert("Error: ' . htmlspecialchars($error->getMessage()) . '") </script>';
+          }
           $_POST['add'] = True;
         }
       }
