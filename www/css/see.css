@@ -1,0 +1,76 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  font-size:11px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 11px;
+}
+
+.active, .collapsible:hover {
+  background-color: #ccc;
+}
+
+.collapsible:after {
+  content: '\02795';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796";
+}
+
+.content {
+  padding: 0px 5px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+  font-size: 11px;
+}
+
+.content::before, .content::after {
+  content: "";
+  display: block;
+  height: 5px;
+}
+
+form {
+  display: table;
+}
+
+p {
+  display: table-row;
+}
+
+label {
+  display: table-cell;
+  padding: 5px;
+}
+
+input {
+  display: table-cell;
+  padding: 0px;
+}
