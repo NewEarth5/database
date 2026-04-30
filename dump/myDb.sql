@@ -370,6 +370,7 @@ IGNORE 1 ROWS
 SET
 `id`            = NULLIF (@id,            ''),
 `name`          = NULLIF (@name,          ''),
+`date`          = NULLIF (@date,          ''),
 `description`   = NULLIF (@description,   ''),
 `client`        = NULLIF (@client,        ''),
 `manager`       = NULLIF (@manager,       ''),
