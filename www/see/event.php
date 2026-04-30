@@ -9,18 +9,17 @@
         font-family: arial, sans-serif;
         border-collapse: collapse;
       }
-
       td, th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
       }
-
       tr:nth-child(even) {
         background-color: #dddddd;
       }
     </style>
     <?php
+      echo "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {
         $_POST['id'] = '';
         $_POST['name'] = '';
@@ -36,22 +35,22 @@
         $_POST['playlist'] = '';
       }
 
-      echo '<form method="post" action="event.php">';
-      echo '<input type="number" name="id"            value="' . trim($_POST['id'])            .'" placeholder="Event ID"         min="1" step="1">';
-      echo '<input type="text"   name="name"          value="' . trim($_POST['name'])          .'" placeholder="Name"             maxlength="255">';
-      echo '<input type="date"   name="date"          value="' . trim($_POST['date'])          .'" placeholder="Date">';
-      echo '<input type="number" name="client"        value="' . trim($_POST['client'])        .'" placeholder="Client ID"        min="1" step="1">';
-      echo '<input type="number" name="manager"       value="' . trim($_POST['manager'])       .'" placeholder="Manager ID"       min="1" step="1">';
-      echo '<input type="number" name="event_planner" value="' . trim($_POST['event_planner']) .'" placeholder="Event planner ID" min="1" step="1">';
-      echo '<input type="number" name="dj"            value="' . trim($_POST['dj'])            .'" placeholder="DJ ID"            min="1" step="1">';
-      echo '<input type="text"   name="theme"         value="' . trim($_POST['theme'])         .'" placeholder="Theme"            maxlength="255">';
-      echo '<input type="text"   name="type"          value="' . trim($_POST['type'])          .'" placeholder="Type"             maxlength="255">';
-      echo '<input type="number" name="location"      value="' . trim($_POST['location'])      .'" placeholder="Location ID"      min="1" step="1">';
-      echo '<input type="number" name="rental_fee"    value="' . trim($_POST['rental_fee'])    .'" placeholder="Rental fee"       min="0" max="9999999" step="0.01">';
-      echo '<input type="text"   name="playlist"      value="' . trim($_POST['playlist'])      .'" placeholder="Playlist"         maxlength="255">';
-      echo '<input type="submit" name="submit"        value="Filter">';
-      echo '<input type="submit" name="reset"         value="Reset">';
-      echo '</form>';
+      echo '    <form method="post" action="event.php">' . "\n";
+      echo '      <input type="number" name="id"            value="' . trim($_POST['id'])            .'" placeholder="Event ID"         min="1" step="1">'                  . "\n";
+      echo '      <input type="text"   name="name"          value="' . trim($_POST['name'])          .'" placeholder="Name"             maxlength="255">'                   . "\n";
+      echo '      <input type="date"   name="date"          value="' . trim($_POST['date'])          .'" placeholder="Date">'                                               . "\n";
+      echo '      <input type="number" name="client"        value="' . trim($_POST['client'])        .'" placeholder="Client ID"        min="1" step="1">'                  . "\n";
+      echo '      <input type="number" name="manager"       value="' . trim($_POST['manager'])       .'" placeholder="Manager ID"       min="1" step="1">'                  . "\n";
+      echo '      <input type="number" name="event_planner" value="' . trim($_POST['event_planner']) .'" placeholder="Event planner ID" min="1" step="1">'                  . "\n";
+      echo '      <input type="number" name="dj"            value="' . trim($_POST['dj'])            .'" placeholder="DJ ID"            min="1" step="1">'                  . "\n";
+      echo '      <input type="text"   name="theme"         value="' . trim($_POST['theme'])         .'" placeholder="Theme"            maxlength="255">'                   . "\n";
+      echo '      <input type="text"   name="type"          value="' . trim($_POST['type'])          .'" placeholder="Type"             maxlength="255">'                   . "\n";
+      echo '      <input type="number" name="location"      value="' . trim($_POST['location'])      .'" placeholder="Location ID"      min="1" step="1">'                  . "\n";
+      echo '      <input type="number" name="rental_fee"    value="' . trim($_POST['rental_fee'])    .'" placeholder="Rental fee"       min="0" max="9999999" step="0.01">' . "\n";
+      echo '      <input type="text"   name="playlist"      value="' . trim($_POST['playlist'])      .'" placeholder="Playlist"         maxlength="255">'                   . "\n";
+      echo '      <input type="submit" name="submit"        value="Filter">'                                                                                                . "\n";
+      echo '      <input type="submit" name="reset"         value="Reset">'                                                                                                 . "\n";
+      echo '    </form>' . "\n";
 
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
@@ -121,40 +120,41 @@
       $statement = $bdd->prepare($sql);
       $statement->execute($filters);
       
-      echo '<table>';
-      echo '<tr>';
-      echo '<th> Event ID         </th>';
-      echo '<th> Name             </th>';
-      echo '<th> Date             </th>';
-      echo '<th> Description      </th>';
-      echo '<th> Client ID        </th>';
-      echo '<th> Manager ID       </th>';
-      echo '<th> Event planner ID </th>';
-      echo '<th> DJ ID            </th>';
-      echo '<th> Theme            </th>';
-      echo '<th> Type             </th>';
-      echo '<th> Location ID      </th>';
-      echo '<th> Rental fee       </th>';
-      echo '<th> Playlist         </th>';
-      echo '</tr>';
+      echo "\n";
+      echo '    <table>';
+      echo '      <tr>';
+      echo '        <th> Event ID         </th>' . "\n";
+      echo '        <th> Name             </th>' . "\n";
+      echo '        <th> Date             </th>' . "\n";
+      echo '        <th> Description      </th>' . "\n";
+      echo '        <th> Client ID        </th>' . "\n";
+      echo '        <th> Manager ID       </th>' . "\n";
+      echo '        <th> Event planner ID </th>' . "\n";
+      echo '        <th> DJ ID            </th>' . "\n";
+      echo '        <th> Theme            </th>' . "\n";
+      echo '        <th> Type             </th>' . "\n";
+      echo '        <th> Location ID      </th>' . "\n";
+      echo '        <th> Rental fee       </th>' . "\n";
+      echo '        <th> Playlist         </th>' . "\n";
+      echo '      </tr>' . "\n";
       while ($row = $statement->fetch()) {
-        echo '<tr>';
-        echo '<td>' . htmlspecialchars($row['id']            ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['name']          ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['date']          ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['description']   ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['client']        ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['manager']       ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['event_planner'] ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['dj']            ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['theme']         ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['type']          ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['location']      ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['rental_fee']    ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['playlist']      ?? '') . '</td>';
-        echo '</tr>';
+        echo '      <tr>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['id']            ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['name']          ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['date']          ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['description']   ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['client']        ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['manager']       ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['event_planner'] ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['dj']            ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['theme']         ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['type']          ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['location']      ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['rental_fee']    ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['playlist']      ?? '') . ' </td>' . "\n";
+        echo '      </tr>' . "\n";
       }
-      echo '</table>';
+      echo '    </table>' . "\n";
     ?>
   </body>
 </html>

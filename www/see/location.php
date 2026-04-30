@@ -9,18 +9,17 @@
         font-family: arial, sans-serif;
         border-collapse: collapse;
       }
-
       td, th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
       }
-
       tr:nth-child(even) {
         background-color: #dddddd;
       }
     </style>
     <?php
+      echo "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {
         $_POST['id'] = '';
         $_POST['street'] = '';
@@ -30,15 +29,15 @@
         $_POST['comment'] = '';
       }
 
-      echo '<form method="post" action="location.php">';
-      echo '<input type="number" name="id"          value="' . trim($_POST['id'])          .'" placeholder="Location ID" min="1" step="1">';
-      echo '<input type="text"   name="street"      value="' . trim($_POST['street'])      .'" placeholder="Steet"       maxlength="255">';
-      echo '<input type="text"   name="city"        value="' . trim($_POST['city'])        .'" placeholder="City"        maxlength="255">';
-      echo '<input type="text"   name="postal_code" value="' . trim($_POST['postal_code']) .'" placeholder="Postal Code" maxlength="12">';
-      echo '<input type="text"   name="country"     value="' . trim($_POST['country'])     .'" placeholder="Country"     maxlength="255">';
-      echo '<input type="submit" name="submit"      value="Filter">';
-      echo '<input type="submit" name="reset"       value="Reset">';
-      echo '</form>';
+      echo '    <form method="post" action="location.php">' . "\n";
+      echo '      <input type="number" name="id"          value="' . trim($_POST['id'])          .'" placeholder="Location ID" min="1" step="1">' . "\n";
+      echo '      <input type="text"   name="street"      value="' . trim($_POST['street'])      .'" placeholder="Steet"       maxlength="255">'  . "\n";
+      echo '      <input type="text"   name="city"        value="' . trim($_POST['city'])        .'" placeholder="City"        maxlength="255">'  . "\n";
+      echo '      <input type="text"   name="postal_code" value="' . trim($_POST['postal_code']) .'" placeholder="Postal Code" maxlength="12">'   . "\n";
+      echo '      <input type="text"   name="country"     value="' . trim($_POST['country'])     .'" placeholder="Country"     maxlength="255">'  . "\n";
+      echo '      <input type="submit" name="submit"      value="Filter">'                                                                        . "\n";
+      echo '      <input type="submit" name="reset"       value="Reset">'                                                                         . "\n";
+      echo '    </form>' . "\n";
 
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
@@ -73,26 +72,27 @@
       $statement = $bdd->prepare($sql);
       $statement->execute($filters);
       
-      echo '<table>';
-      echo '<tr>';
-      echo '<th> Location ID </th>';
-      echo '<th> Street      </th>';
-      echo '<th> City        </th>';
-      echo '<th> Postal Code </th>';
-      echo '<th> Country     </th>';
-      echo '<th> Comment     </th>';
-      echo '</tr>';
+      echo "\n";
+      echo '    <table>' . "\n";
+      echo '      <tr>' . "\n";
+      echo '        <th> Location ID </th>' . "\n";
+      echo '        <th> Street      </th>' . "\n";
+      echo '        <th> City        </th>' . "\n";
+      echo '        <th> Postal Code </th>' . "\n";
+      echo '        <th> Country     </th>' . "\n";
+      echo '        <th> Comment     </th>' . "\n";
+      echo '      </tr>' . "\n";
       while ($row = $statement->fetch()) {
-        echo '<tr>';
-        echo '<td>' . htmlspecialchars($row['id']          ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['street']      ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['city']        ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['postal_code'] ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['country']     ?? '') . '</td>';
-        echo '<td>' . htmlspecialchars($row['comment']     ?? '') . '</td>';
-        echo '</tr>';
+        echo '      <tr>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['id']          ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['street']      ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['city']        ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['postal_code'] ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['country']     ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars($row['comment']     ?? '') . ' </td>' . "\n";
+        echo '      </tr>' . "\n";
       }
-      echo '</table>';
+      echo '    </table>' . "\n";
     ?>
   </body>
 </html>
