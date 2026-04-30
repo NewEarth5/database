@@ -4,20 +4,6 @@
     <title>List of Clients</title>
   </head>
   <body>
-    <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-      }
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-    </style>
     <?php
       echo "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {

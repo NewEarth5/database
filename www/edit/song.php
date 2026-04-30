@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>List of Clients</title>
+    <title>Edit Songs</title>
   </head>
   <body>
     <style>
@@ -165,7 +165,7 @@
             echo '      <input type="number" name="track_number" value="' . htmlspecialchars(trim($_POST['track_number'] ?? '')) . '" placeholder="Track number" min="1" step="1">' . "\n";
             echo '      <input type="text"   name="artist"       value="' . htmlspecialchars(trim($_POST['artist']       ?? '')) . '" placeholder="Artist"       maxlength="255">'  . "\n";
             echo '      <input type="text"   name="title"        value="' . htmlspecialchars(trim($_POST['title']        ?? '')) . '" placeholder="Title"        maxlength="255">'  . "\n";
-            echo '      <input type="time"   name="duration"     value="' . htmlspecialchars(trim($_POST['duration']     ?? '')) . '" placeholder="Duration">'                      . "\n";
+            echo '      <input type="time"   name="duration"     value="' . htmlspecialchars(trim($_POST['duration']     ?? '')) . '" placeholder="Duration"     step="1">'         . "\n";
             if ($amount_genre > 0) {
               echo '      <select name="song_genre">' . "\n";
               foreach ($rows_genre as $row) {
