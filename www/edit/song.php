@@ -25,38 +25,42 @@
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
       if (isset($_POST['delete'])) {
-        $sql_delete = 'DELETE FROM `Song` WHERE `cd_number` = :cd_number AND `track_number` = :track_number';
-        $params_delete[':cd_number']    = $_POST['cd'];
-        $params_delete[':track_number'] = $_POST['song'];
-        $req_delete = $bdd->prepare($sql_delete);
-        $req_delete->execute($params_delete);
+        try {
+          $bdd->beginTransaction();
+          $sql_delete = 'DELETE FROM `Song` WHERE `cd_number` = :cd_number AND `track_number` = :track_number';
+          $params_delete[':cd_number']    = $_POST['cd'];
+          $params_delete[':track_number'] = $_POST['song'];
+          $req_delete = $bdd->prepare($sql_delete);
+          $req_delete->execute($params_delete);
+          $bdd->commit();
+        } catch (\PDOException $error) {
+          $bdd->rollBack();
+          echo '    <script> alert("Error: ' . htmlspecialchars($e->getMessage()) . '") </script>';
+        }
       }
 
       if (isset($_POST['save_edit'])) {
-        $sql_save_edit = 'UPDATE `Song` SET `title` = :title, `artist` = :artist, `duration` = :duration, `genre` = :genre WHERE `cd_number` = :cd_number and `track_number` = :track_number';
-        $params_save_edit[':cd_number']    = $_POST['cd'];
-        $params_save_edit[':track_number'] = $_POST['song'];
-        $params_save_edit[':title']        = $_POST['title'];
-        $params_save_edit[':artist']       = $_POST['artist'];
-        $params_save_edit[':duration']     = $_POST['duration'];
-        $params_save_edit[':genre']        = $_POST['song_genre'];
-        $req_save_edit = $bdd->prepare($sql_save_edit);
-        $req_save_edit->execute($params_save_edit);
+        try {
+          $bdd->beginTransaction();
+          $sql_save_edit = 'UPDATE `Song` SET `title` = :title, `artist` = :artist, `duration` = :duration, `genre` = :genre WHERE `cd_number` = :cd_number and `track_number` = :track_number';
+          $params_save_edit[':cd_number']    = $_POST['cd'];
+          $params_save_edit[':track_number'] = $_POST['song'];
+          $params_save_edit[':title']        = $_POST['title'];
+          $params_save_edit[':artist']       = $_POST['artist'];
+          $params_save_edit[':duration']     = $_POST['duration'];
+          $params_save_edit[':genre']        = $_POST['song_genre'];
+          $req_save_edit = $bdd->prepare($sql_save_edit);
+          $req_save_edit->execute($params_save_edit);
+          $bdd->commit();
+        } catch (\PDOException $error) {
+          $bdd->rollBack();
+          echo '    <script> alert("Error: ' . htmlspecialchars($e->getMessage()) . '") </script>';
+        }
       }
 
       if (isset($_POST['save_add'])) {
-        $sql_track = 'SELECT * FROM `Song`WHERE `cd_number` = :cd_number AND `track_number` = :track_number';
-        $params_track[':cd_number']    = $_POST['cd'];
-        $params_track[':track_number'] = $_POST['track_number'];
-        $req_track = $bdd->prepare($sql_track);
-        $req_track->execute($params_track);
-        $rows_track = $req_track->fetchAll();
-        $amount_track = count($rows_track);
-
-        if ($amount_track > 0) {
-          echo '    <script> alert("A song already has this track number on this CD.") </script>';
-          $_POST['add'] = True;
-        } else {
+        try {
+          $bdd->beginTransaction();
           $sql_save_add = 'INSERT INTO `Song` (`cd_number`, `track_number`, `title`, `artist`, `duration`, `genre`) VALUES (:cd_number, :track_number, :title, :artist, :duration, :genre)';
           $params_save_add[':cd_number']    = $_POST['cd'];
           $params_save_add[':track_number'] = $_POST['track_number'];
@@ -66,6 +70,11 @@
           $params_save_add[':genre']        = $_POST['song_genre'];
           $req_save_add = $bdd->prepare($sql_save_add);
           $req_save_add->execute($params_save_add);
+          $bdd->commit();
+        } catch (\PDOException $error) {
+          $bdd->rollBack();
+          echo '    <script> alert("A song already has this track number on this CD.") </script>';
+          $_POST['add'] = True;
         }
       }
 
