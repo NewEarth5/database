@@ -80,7 +80,7 @@
         foreach ($rows_cd as $row) {
           echo '        <option value="' . $row['cd_number'] . '"';
           if(isset($_POST['cd']) and $row['cd_number'] == $_POST['cd']) echo ' selected';
-          echo '> ' . $row['producer'] . ' | ' . $row['title'] . ' - ' . $row['year'] . ' (' . $row['copies'] . ') </option>' . "\n";
+          echo '> ' . htmlspecialchars(trim($row['producer'] ?? '')) . ' | ' . htmlspecialchars(trim($row['title'] ?? '')) . ' - ' . htmlspecialchars(trim($row['year'] ?? '')) . ' (' . htmlspecialchars(trim($row['copies'] ?? '')) . ') </option>' . "\n";
         }
         echo '      </select>' . "\n";
         echo '      <input type="submit" name="cd_submit" value="Select">' . "\n";
@@ -101,7 +101,7 @@
             foreach ($rows_song as $row) {
               echo '        <option value="' . $row['track_number'] . '"';
               if(isset($_POST['song']) and $row['track_number'] == $_POST['song']) echo ' selected';
-              echo '> ' . $row['artist'] . ' | ' . $row['title'] . ' - ' . $row['genre'] . ' (' . $row['duration'] . ') </option>' . "\n";
+              echo '> ' . htmlspecialchars(trim($row['artist'] ?? '')) . ' | ' . htmlspecialchars(trim($row['title'] ?? '')) . ' - ' . htmlspecialchars(trim($row['genre'] ?? '')) . ' (' . htmlspecialchars(trim($row['duration'] ?? '')) . ') </option>' . "\n";
             }
             echo '      </select>' . "\n";
             echo '      <input type="submit" name="delete" value="Delete">' . "\n";
@@ -129,15 +129,15 @@
             $song = $req_edit->fetch();
 
             echo '    <form method="post" action="song.php">' . "\n";
-            echo '      <input type="text" name="artist"   value="' . $song['artist']   . '" placeholder="Artist"   maxlength="255">' . "\n";
-            echo '      <input type="text" name="title"    value="' . $song['title']    . '"  placeholder="Title"    maxlength="255">' . "\n";
-            echo '      <input type="time" name="duration" value="' . $song['duration'] . '" placeholder="Duration">'                 . "\n";
+            echo '      <input type="text" name="artist"   value="' . htmlspecialchars(trim($song['artist']   ?? '')) . '" placeholder="Artist"   maxlength="255">' . "\n";
+            echo '      <input type="text" name="title"    value="' . htmlspecialchars(trim($song['title']    ?? '')) . '"  placeholder="Title"    maxlength="255">' . "\n";
+            echo '      <input type="time" name="duration" value="' . htmlspecialchars(trim($song['duration'] ?? '')) . '" placeholder="Duration">'                 . "\n";
             if ($amount_genre > 0) {
               echo '      <select name="song_genre">' . "\n";
               foreach ($rows_genre as $row) {
                 echo '        <option value="' . $row["name"] . '"';
                 if ($row['name'] == $song['genre']) echo ' selected';
-                echo '> ' . $row['name'] . '</option>' . "\n";
+                echo '> ' . htmlspecialchars(trim($row['name'] ?? '')) . '</option>' . "\n";
               }
               echo '      </select>' . "\n";
             }
@@ -149,16 +149,16 @@
 
           if (isset($_POST['add'])) {
             echo '    <form method="post" action="song.php">' . "\n";
-            echo '      <input type="number" name="track_number" value="' . trim($_POST['track_number'] ?? '') . '" placeholder="Track number" min="1" step="1">' . "\n";
-            echo '      <input type="text"   name="artist"       value="' . trim($_POST['artist']       ?? '') . '" placeholder="Artist"       maxlength="255">'  . "\n";
-            echo '      <input type="text"   name="title"        value="' . trim($_POST['title']        ?? '') . '" placeholder="Title"        maxlength="255">'  . "\n";
-            echo '      <input type="time"   name="duration"     value="' . trim($_POST['duration']     ?? '') . '" placeholder="Duration">'                      . "\n";
+            echo '      <input type="number" name="track_number" value="' . htmlspecialchars(trim($_POST['track_number'] ?? '')) . '" placeholder="Track number" min="1" step="1">' . "\n";
+            echo '      <input type="text"   name="artist"       value="' . htmlspecialchars(trim($_POST['artist']       ?? '')) . '" placeholder="Artist"       maxlength="255">'  . "\n";
+            echo '      <input type="text"   name="title"        value="' . htmlspecialchars(trim($_POST['title']        ?? '')) . '" placeholder="Title"        maxlength="255">'  . "\n";
+            echo '      <input type="time"   name="duration"     value="' . htmlspecialchars(trim($_POST['duration']     ?? '')) . '" placeholder="Duration">'                      . "\n";
             if ($amount_genre > 0) {
               echo '      <select name="song_genre">' . "\n";
               foreach ($rows_genre as $row) {
                 echo '        <option value="' . $row["name"] . '"';
                 if (isset($_POST['song_genre']) and $row['name'] == $_POST['song_genre']) echo ' selected';
-                echo '> ' . $row['name'] . '</option>' . "\n";
+                echo '> ' . htmlspecialchars(trim($row['name'] ?? '')) . '</option>' . "\n";
               }
               echo '      </select>' . "\n";
             }

@@ -29,11 +29,11 @@
       }
 
       echo '    <form method="post" action="client.php">' . "\n";
-      echo '      <input type="number" name="client_number" value="' . trim($_POST['client_number']) .'" placeholder="Client ID"    min="1" step="1">' . "\n";
-      echo '      <input type="text"   name="first_name"    value="' . trim($_POST['first_name'])    .'" placeholder="First name"   maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="last_name"     value="' . trim($_POST['last_name'])     .'" placeholder="Last name"    maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="email_address" value="' . trim($_POST['email_address']) .'" placeholder="Email"        maxlength="255">'  . "\n";
-      echo '      <input type="tel"    name="phone_number"  value="' . trim($_POST['phone_number'])  .'" placeholder="Phone number" maxlength="20">'   . "\n";
+      echo '      <input type="number" name="client_number" value="' . htmlspecialchars(trim($_POST['client_number'] ?? '')) .'" placeholder="Client ID"    min="1" step="1">' . "\n";
+      echo '      <input type="text"   name="first_name"    value="' . htmlspecialchars(trim($_POST['first_name']    ?? '')) .'" placeholder="First name"   maxlength="255">'  . "\n";
+      echo '      <input type="text"   name="last_name"     value="' . htmlspecialchars(trim($_POST['last_name']     ?? '')) .'" placeholder="Last name"    maxlength="255">'  . "\n";
+      echo '      <input type="text"   name="email_address" value="' . htmlspecialchars(trim($_POST['email_address'] ?? '')) .'" placeholder="Email"        maxlength="255">'  . "\n";
+      echo '      <input type="tel"    name="phone_number"  value="' . htmlspecialchars(trim($_POST['phone_number']  ?? '')) .'" placeholder="Phone number" maxlength="20">'   . "\n";
       echo '      <input type="submit" name="submit"        value="Filter">'                                                                           . "\n";
       echo '      <input type="submit" name="reset"         value="Reset">'                                                                            . "\n";
       echo '    </form>' . "\n";
@@ -82,11 +82,11 @@
       echo '      </tr>' . "\n";
       while ($row = $statement->fetch()) {
         echo '      <tr>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['client_number'] ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['first_name']    ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['last_name']     ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['email_address'] ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['phone_number']  ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['client_number'] ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['first_name']    ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['last_name']     ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['email_address'] ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['phone_number']  ?? '')) . ' </td>' . "\n";
         echo '      </tr>' . "\n";
       }
       echo '    </table>' . "\n";

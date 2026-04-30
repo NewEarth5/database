@@ -30,11 +30,11 @@
       }
 
       echo '    <form method="post" action="location.php">' . "\n";
-      echo '      <input type="number" name="id"          value="' . trim($_POST['id'])          .'" placeholder="Location ID" min="1" step="1">' . "\n";
-      echo '      <input type="text"   name="street"      value="' . trim($_POST['street'])      .'" placeholder="Steet"       maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="city"        value="' . trim($_POST['city'])        .'" placeholder="City"        maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="postal_code" value="' . trim($_POST['postal_code']) .'" placeholder="Postal Code" maxlength="12">'   . "\n";
-      echo '      <input type="text"   name="country"     value="' . trim($_POST['country'])     .'" placeholder="Country"     maxlength="255">'  . "\n";
+      echo '      <input type="number" name="id"          value="' . htmlspecialchars(trim($_POST['id']          ?? '')) .'" placeholder="Location ID" min="1" step="1">' . "\n";
+      echo '      <input type="text"   name="street"      value="' . htmlspecialchars(trim($_POST['street']      ?? '')) .'" placeholder="Steet"       maxlength="255">'  . "\n";
+      echo '      <input type="text"   name="city"        value="' . htmlspecialchars(trim($_POST['city']        ?? '')) .'" placeholder="City"        maxlength="255">'  . "\n";
+      echo '      <input type="text"   name="postal_code" value="' . htmlspecialchars(trim($_POST['postal_code'] ?? '')) .'" placeholder="Postal Code" maxlength="12">'   . "\n";
+      echo '      <input type="text"   name="country"     value="' . htmlspecialchars(trim($_POST['country']     ?? '')) .'" placeholder="Country"     maxlength="255">'  . "\n";
       echo '      <input type="submit" name="submit"      value="Filter">'                                                                        . "\n";
       echo '      <input type="submit" name="reset"       value="Reset">'                                                                         . "\n";
       echo '    </form>' . "\n";
@@ -84,12 +84,12 @@
       echo '      </tr>' . "\n";
       while ($row = $statement->fetch()) {
         echo '      <tr>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['id']          ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['street']      ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['city']        ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['postal_code'] ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['country']     ?? '') . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars($row['comment']     ?? '') . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['id']          ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['street']      ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['city']        ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['postal_code'] ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['country']     ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['comment']     ?? '')) . ' </td>' . "\n";
         echo '      </tr>' . "\n";
       }
       echo '    </table>' . "\n";
