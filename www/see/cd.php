@@ -11,7 +11,10 @@
         echo '      sessionStorage.setItem("filterMenuOpen", "false");' . "\n";
       } else {
         echo '      if (sessionStorage.getItem("filterMenuOpen") === "true") {' . "\n";
-        echo '        document.write(\'<style id="temp-collapsible"> .content { max-height: none !important; transition: none !important; } </style>\');' . "\n";
+        echo '        const style = document.createElement("style");' . "\n";
+        echo '        style.id = "temp-collapsible";' . "\n";
+        echo '        style.textContent = " .content { max-height: none !important; transition: none !important; }";' . "\n";
+        echo '        document.head.appendChild(style);' . "\n";
         echo '      }' . "\n";
       }
       echo '    </script>' . "\n";
