@@ -20,7 +20,7 @@
         $_POST['title']           = '';
         $_POST['producer']        = '';
         $_POST['year']            = '';
-        $_POST['duration_total']  = '';
+        $_POST['duration_tot']    = '';
         $_POST['duration_max']    = '';
         $_POST['duration_min']    = '';
         $_POST['duration_avg']    = '';
@@ -48,8 +48,8 @@
       echo '          <input type="number" id="year"            name="year"            value="' . htmlspecialchars(trim($_POST['year']            ?? '')) .'" min="1901" max="2155" step="1">' . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="duration_total">  Total duration:   </label>'                                                                                                                . "\n";
-      echo '          <input type="time"   id="duration_total"  name="duration_total"  value="' . htmlspecialchars(trim($_POST['duration_total']  ?? '')) .'" step="1">'                       . "\n";
+      echo '          <label for="duration_tot">    Total duration:   </label>'                                                                                                                . "\n";
+      echo '          <input type="time"   id="duration_tot"    name="duration_tot"    value="' . htmlspecialchars(trim($_POST['duration_tot']    ?? '')) .'" step="1">'                       . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
       echo '          <label for="duration_max">    Maximum duration: </label>'                                                                                                                . "\n";
@@ -120,7 +120,7 @@
           `CD`.`title`,
           `CD`.`producer`,
           `CD`.`year`,
-          COALESCE(`SongStats`.`duration_tot`,        "N/A") AS `duration_total`,
+          COALESCE(`SongStats`.`duration_tot`,        "N/A") AS `duration_tot`,
           COALESCE(`SongStats`.`duration_max`,        "N/A") AS `duration_max`,
           COALESCE(`SongStats`.`duration_min`,        "N/A") AS `duration_min`,
           COALESCE(`SongStats`.`duration_avg`,        "N/A") AS `duration_avg`,
@@ -153,28 +153,28 @@
         $filters[':year'] = $_POST['year'];
       }
 
-      if(!empty(trim($_POST['duration_total']))) {
-        $sql .= ' AND `SongStats`.`duration_total` = :duration_total';
-        $filters[':duration_total'] = $_POST['duration_total'];
+      if(!empty(trim($_POST['duration_tot']))) {
+        $sql .= ' AND COALESCE(`SongStats`.`duration_tot`, 0) = :duration_tot';
+        $filters[':duration_tot'] = $_POST['duration_tot'];
       }
 
       if(!empty(trim($_POST['duration_max']))) {
-        $sql .= ' AND `SongStats`.`duration_max` = :duration_max';
+        $sql .= ' AND COALESCE(`SongStats`.`duration_max`, 0) = :duration_max';
         $filters[':duration_max'] = $_POST['duration_max'];
       }
 
       if(!empty(trim($_POST['duration_min']))) {
-        $sql .= ' AND `SongStats`.`duration_min` = :duration_min';
+        $sql .= ' AND COALESCE(`SongStats`.`duration_min`, 0) = :duration_min';
         $filters[':duration_min'] = $_POST['duration_min'];
       }
 
       if(!empty(trim($_POST['duration_avg']))) {
-        $sql .= ' AND `SongStats`.`duration_avg` = :duration_avg';
+        $sql .= ' AND COALESCE(`SongStats`.`duration_avg`, 0) = :duration_avg';
         $filters[':duration_avg'] = $_POST['duration_avg'];
       }
 
       if(!empty(trim($_POST['playlist_amount']))) {
-        $sql .= ' AND `PlaylistCount`.`playlist_amount` = :playlist_amount';
+        $sql .= ' AND COALESCE(`PlaylistCount`.`playlist_amount`, 0) = :playlist_amount';
         $filters[':playlist_amount'] = $_POST['playlist_amount'];
       }
 
@@ -205,7 +205,7 @@
         echo '        <td> ' . htmlspecialchars(trim($row['title']           ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['producer']        ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['year']            ?? '')) . ' </td>' . "\n";
-        echo '        <td> ' . htmlspecialchars(trim($row['duration_total']  ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['duration_tot']    ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['duration_max']    ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['duration_min']    ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['duration_avg']    ?? '')) . ' </td>' . "\n";
@@ -215,6 +215,6 @@
       }
       echo '    </table>' . "\n";
     ?>
+    <script src="../javascript/see.js"></script>
   </body>
-  <script src="../javascript/see.js"></script>
 </html>

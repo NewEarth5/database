@@ -103,6 +103,6 @@
       }
       echo '    </table>' . "\n";
     ?>
+    <script src="../javascript/see.js"></script>
   </body>
-  <script src="../javascript/see.js"></script>
 </html>
