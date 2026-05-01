@@ -23,6 +23,7 @@
         $_POST['title']           = '';
         $_POST['producer']        = '';
         $_POST['year']            = '';
+        $_POST['copies']          = '';
         $_POST['duration_tot']    = '';
         $_POST['duration_max']    = '';
         $_POST['duration_min']    = '';
@@ -49,6 +50,10 @@
       echo '        <p>'                                                                                                                                                                       . "\n";
       echo '          <label for="year">            Year:             </label>'                                                                                                                . "\n";
       echo '          <input type="number" id="year"            name="year"            value="' . htmlspecialchars(trim($_POST['year']            ?? '')) .'" min="1901" max="2155" step="1">' . "\n";
+      echo '        </p>'                                                                                                                                                                      . "\n";
+      echo '        <p>'                                                                                                                                                                       . "\n";
+      echo '          <label for="copies">          Number of copies: </label>'                                                                                                                . "\n";
+      echo '          <input type="number" id="copies"          name="copies"          value="' . htmlspecialchars(trim($_POST['copies']          ?? '')) .'" min="1" step="1">'               . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
       echo '          <label for="duration_tot">    Total duration:   </label>'                                                                                                                . "\n";
@@ -123,6 +128,7 @@
           `CD`.`title`,
           `CD`.`producer`,
           `CD`.`year`,
+          `CD`.`copies`,
           COALESCE(`SongStats`.`duration_tot`,        "N/A") AS `duration_tot`,
           COALESCE(`SongStats`.`duration_max`,        "N/A") AS `duration_max`,
           COALESCE(`SongStats`.`duration_min`,        "N/A") AS `duration_min`,
@@ -156,23 +162,28 @@
         $filters[':year'] = $_POST['year'];
       }
 
+      if(!empty(trim($_POST['copies']))) {
+        $sql .= ' AND `CD`.`copies` = :copies';
+        $filters[':copies'] = $_POST['copies'];
+      }
+
       if(!empty(trim($_POST['duration_tot']))) {
-        $sql .= ' AND COALESCE(`SongStats`.`duration_tot`, 0) = :duration_tot';
+        $sql .= ' AND `SongStats`.`duration_tot` = :duration_tot';
         $filters[':duration_tot'] = $_POST['duration_tot'];
       }
 
       if(!empty(trim($_POST['duration_max']))) {
-        $sql .= ' AND COALESCE(`SongStats`.`duration_max`, 0) = :duration_max';
+        $sql .= ' AND `SongStats`.`duration_max` = :duration_max';
         $filters[':duration_max'] = $_POST['duration_max'];
       }
 
       if(!empty(trim($_POST['duration_min']))) {
-        $sql .= ' AND COALESCE(`SongStats`.`duration_min`, 0) = :duration_min';
+        $sql .= ' AND `SongStats`.`duration_min` = :duration_min';
         $filters[':duration_min'] = $_POST['duration_min'];
       }
 
       if(!empty(trim($_POST['duration_avg']))) {
-        $sql .= ' AND COALESCE(`SongStats`.`duration_avg`, 0) = :duration_avg';
+        $sql .= ' AND `SongStats`.`duration_avg` = :duration_avg';
         $filters[':duration_avg'] = $_POST['duration_avg'];
       }
 
@@ -195,6 +206,7 @@
       echo '        <th> Title            </th>' . "\n";
       echo '        <th> Producer         </th>' . "\n";
       echo '        <th> Year             </th>' . "\n";
+      echo '        <th> Number of copies </th>' . "\n";
       echo '        <th> Total duration   </th>' . "\n";
       echo '        <th> Maximum duration </th>' . "\n";
       echo '        <th> Minimum duration </th>' . "\n";
@@ -208,6 +220,7 @@
         echo '        <td> ' . htmlspecialchars(trim($row['title']           ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['producer']        ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['year']            ?? '')) . ' </td>' . "\n";
+        echo '        <td> ' . htmlspecialchars(trim($row['copies']          ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['duration_tot']    ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['duration_max']    ?? '')) . ' </td>' . "\n";
         echo '        <td> ' . htmlspecialchars(trim($row['duration_min']    ?? '')) . ' </td>' . "\n";
