@@ -1,26 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Edit Songs</title>
+    <title> Edit Songs </title>
   </head>
-  <body>
-    <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-      }
-
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-    </style>
-    <?php
+  <body><?php
       echo "\n";
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
@@ -107,7 +90,6 @@
           $rows_song = $req_song->fetchAll();
           $amount_song = count($rows_song);
 
-          echo "\n";
           echo '    <form method="post" action="song.php">' . "\n";
           if ($amount_song > 0) {
             echo '      <select name="song">' . "\n";

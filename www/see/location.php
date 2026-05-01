@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>List of Locations</title>
+    <title> List of Locations </title>
+    <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
-  <body>
-    <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-      }
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-    </style>
-    <?php
+  <body><?php
       echo "\n";
+      echo '    <script>' . "\n";
+      if (!isset($_POST['submit']) or isset($_POST['reset'])) {
+        echo '      sessionStorage.setItem("filterMenuOpen", "false");' . "\n";
+      } else {
+        echo '      if (sessionStorage.getItem("filterMenuOpen") === "true") {' . "\n";
+        echo '        document.write(\'<style id="temp-collapsible"> .content { max-height: none !important; transition: none !important; } </style>\');' . "\n";
+        echo '      }' . "\n";
+      }
+      echo '    </script>' . "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {
-        $_POST['id'] = '';
-        $_POST['street'] = '';
-        $_POST['city'] = '';
+        $_POST['id']          = '';
+        $_POST['street']      = '';
+        $_POST['city']        = '';
         $_POST['postal_code'] = '';
-        $_POST['country'] = '';
-        $_POST['comment'] = '';
+        $_POST['country']     = '';
+        $_POST['comment']     = '';
       }
 
-      echo '    <form method="post" action="location.php">' . "\n";
-      echo '      <input type="number" name="id"          value="' . htmlspecialchars(trim($_POST['id']          ?? '')) .'" placeholder="Location ID" min="1" step="1">' . "\n";
-      echo '      <input type="text"   name="street"      value="' . htmlspecialchars(trim($_POST['street']      ?? '')) .'" placeholder="Steet"       maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="city"        value="' . htmlspecialchars(trim($_POST['city']        ?? '')) .'" placeholder="City"        maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="postal_code" value="' . htmlspecialchars(trim($_POST['postal_code'] ?? '')) .'" placeholder="Postal Code" maxlength="12">'   . "\n";
-      echo '      <input type="text"   name="country"     value="' . htmlspecialchars(trim($_POST['country']     ?? '')) .'" placeholder="Country"     maxlength="255">'  . "\n";
-      echo '      <input type="submit" name="submit"      value="Filter">'                                                                        . "\n";
-      echo '      <input type="submit" name="reset"       value="Reset">'                                                                         . "\n";
-      echo '    </form>' . "\n";
+      echo '    <button class="collapsible"> Filters </button>'                                                                                                      . "\n";
+      echo '    <div class="content">'                                                                                                                               . "\n";
+      echo '      <form method="post" action="location.php">'                                                                                                        . "\n";
+      echo '        <p>'                                                                                                                                             . "\n";
+      echo '          <label for=id>          ID:          </label>'                                                                                                 . "\n";
+      echo '          <input type="number" id="id"          name="id"          value="' . htmlspecialchars(trim($_POST['id']          ?? '')) .'" min="1" step="1">' . "\n";
+      echo '        </p>'                                                                                                                                            . "\n";
+      echo '        <p>'                                                                                                                                             . "\n";
+      echo '          <label for=street>      Street:      </label>'                                                                                                 . "\n";
+      echo '          <input type="text"   id="street"      name="street"      value="' . htmlspecialchars(trim($_POST['street']      ?? '')) .'" maxlength="255">'  . "\n";
+      echo '        </p>'                                                                                                                                            . "\n";
+      echo '        <p>'                                                                                                                                             . "\n";
+      echo '          <label for=city>        City:        </label>'                                                                                                 . "\n";
+      echo '          <input type="text"   id="city"        name="city"        value="' . htmlspecialchars(trim($_POST['city']        ?? '')) .'" maxlength="255">'  . "\n";
+      echo '        </p>'                                                                                                                                            . "\n";
+      echo '        <p>'                                                                                                                                             . "\n";
+      echo '          <label for=postal_code> Postal code: </label>'                                                                                                 . "\n";
+      echo '          <input type="text"   id="postal_code" name="postal_code" value="' . htmlspecialchars(trim($_POST['postal_code'] ?? '')) .'" maxlength="12">'   . "\n";
+      echo '        </p>'                                                                                                                                            . "\n";
+      echo '        <p>'                                                                                                                                             . "\n";
+      echo '          <label for=country>     Country:     </label>'                                                                                                 . "\n";
+      echo '          <input type="text"   id="country"     name="country"     value="' . htmlspecialchars(trim($_POST['country']     ?? '')) .'" maxlength="255">'  . "\n";
+      echo '        </p>'                                                                                                                                            . "\n";
+      echo '        <input   type="submit" id="submit"      name="submit"      value="Filter">'                                                                      . "\n";
+      echo '        <input   type="submit" id="reset"       name="reset"       value="Reset">'                                                                       . "\n";
+      echo '      </form>'                                                                                                                                           . "\n";
+      echo '    </div>'                                                                                                                                              . "\n";
 
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
@@ -72,7 +85,6 @@
       $statement = $bdd->prepare($sql);
       $statement->execute($filters);
       
-      echo "\n";
       echo '    <table>' . "\n";
       echo '      <tr>' . "\n";
       echo '        <th> Location ID </th>' . "\n";
@@ -95,4 +107,5 @@
       echo '    </table>' . "\n";
     ?>
   </body>
+  <script src="../javascript/see.js"></script>
 </html>

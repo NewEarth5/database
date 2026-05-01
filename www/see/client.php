@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>List of Clients</title>
+    <title> List of Clients </title>
+    <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
-  <body>
-    <?php
+  <body><?php
       echo "\n";
+      echo '    <script>' . "\n";
+      if (!isset($_POST['submit']) or isset($_POST['reset'])) {
+        echo '      sessionStorage.setItem("filterMenuOpen", "false");' . "\n";
+      } else {
+        echo '      if (sessionStorage.getItem("filterMenuOpen") === "true") {' . "\n";
+        echo '        document.write(\'<style id="temp-collapsible"> .content { max-height: none !important; transition: none !important; } </style>\');' . "\n";
+        echo '      }' . "\n";
+      }
+      echo '    </script>' . "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {
         $_POST['client_number'] = '';
-        $_POST['first_name'] = '';
-        $_POST['last_name'] = '';
+        $_POST['first_name']    = '';
+        $_POST['last_name']     = '';
         $_POST['email_address'] = '';
-        $_POST['phone_number'] = '';
+        $_POST['phone_number']  = '';
       }
 
-      echo '    <form method="post" action="client.php">' . "\n";
-      echo '      <input type="number" name="client_number" value="' . htmlspecialchars(trim($_POST['client_number'] ?? '')) .'" placeholder="Client ID"    min="1" step="1">' . "\n";
-      echo '      <input type="text"   name="first_name"    value="' . htmlspecialchars(trim($_POST['first_name']    ?? '')) .'" placeholder="First name"   maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="last_name"     value="' . htmlspecialchars(trim($_POST['last_name']     ?? '')) .'" placeholder="Last name"    maxlength="255">'  . "\n";
-      echo '      <input type="text"   name="email_address" value="' . htmlspecialchars(trim($_POST['email_address'] ?? '')) .'" placeholder="Email"        maxlength="255">'  . "\n";
-      echo '      <input type="tel"    name="phone_number"  value="' . htmlspecialchars(trim($_POST['phone_number']  ?? '')) .'" placeholder="Phone number" maxlength="20">'   . "\n";
-      echo '      <input type="submit" name="submit"        value="Filter">'                                                                           . "\n";
-      echo '      <input type="submit" name="reset"         value="Reset">'                                                                            . "\n";
-      echo '    </form>' . "\n";
+      echo '    <button class="collapsible"> Filters </button>'                                                                                                            . "\n";
+      echo '    <div class="content">'                                                                                                                                     . "\n";
+      echo '      <form method="post" action="client.php">'                                                                                                                . "\n";
+      echo '        <p>'                                                                                                                                                   . "\n";
+      echo '          <label for=client_number> Client ID:  </label>'                                                                                                      . "\n";
+      echo '          <input type="number" id="client_number" name="client_number" value="' . htmlspecialchars(trim($_POST['client_number'] ?? '')) .'" min="1" step="1">' . "\n";
+      echo '        </p>'                                                                                                                                                  . "\n";
+      echo '        <p>'                                                                                                                                                   . "\n";
+      echo '          <label for=first_name>    First name: </label>'                                                                                                      . "\n";
+      echo '          <input type="text"   id="first_name"    name="first_name"    value="' . htmlspecialchars(trim($_POST['first_name']    ?? '')) .'" maxlength="255">'  . "\n";
+      echo '        </p>'                                                                                                                                                  . "\n";
+      echo '        <p>'                                                                                                                                                   . "\n";
+      echo '          <label for=last_name>     Last name:  </label>'                                                                                                      . "\n";
+      echo '          <input type="text"   id="last_name"     name="last_name"     value="' . htmlspecialchars(trim($_POST['last_name']     ?? '')) .'" maxlength="255">'  . "\n";
+      echo '        </p>'                                                                                                                                                  . "\n";
+      echo '        <p>'                                                                                                                                                   . "\n";
+      echo '          <label for=email_address> Email:      </label>'                                                                                                      . "\n";
+      echo '          <input type="text"   id="email_address" name="email_address" value="' . htmlspecialchars(trim($_POST['email_address'] ?? '')) .'" maxlength="255">'  . "\n";
+      echo '        </p>'                                                                                                                                                  . "\n";
+      echo '        <p>'                                                                                                                                                   . "\n";
+      echo '          <label for=phone_number>  Phone:      </label>'                                                                                                      . "\n";
+      echo '          <input type="tel"    id="phone_number"  name="phone_number"  value="' . htmlspecialchars(trim($_POST['phone_number']  ?? '')) .'" maxlength="20">'   . "\n";
+      echo '        </p>'                                                                                                                                                  . "\n";
+      echo '        <input   type="submit" id="submit"        name="submit"        value="Filter">'                                                                        . "\n";
+      echo '        <input   type="submit" id="reset"         name="reset"         value="Reset">'                                                                         . "\n";
+      echo '      </form>'                                                                                                                                                 . "\n";
+      echo '    </div>'                                                                                                                                                    . "\n";
 
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
@@ -57,7 +84,6 @@
       $statement = $bdd->prepare($sql);
       $statement->execute($filters);
       
-      echo "\n";
       echo '    <table>' . "\n";
       echo '      <tr>' . "\n";
       echo '        <th> Client ID    </th>' . "\n";
@@ -78,4 +104,5 @@
       echo '    </table>' . "\n";
     ?>
   </body>
+  <script src="../javascript/see.js"></script>
 </html>

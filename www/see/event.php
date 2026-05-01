@@ -1,56 +1,90 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>List of Events</title>
+    <title> List of Events </title>
+    <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
-  <body>
-    <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-      }
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-    </style>
-    <?php
+  <body><?php
       echo "\n";
+      echo '    <script>' . "\n";
+      if (!isset($_POST['submit']) or isset($_POST['reset'])) {
+        echo '      sessionStorage.setItem("filterMenuOpen", "false");' . "\n";
+      } else {
+        echo '      if (sessionStorage.getItem("filterMenuOpen") === "true") {' . "\n";
+        echo '        document.write(\'<style id="temp-collapsible"> .content { max-height: none !important; transition: none !important; } </style>\');' . "\n";
+        echo '      }' . "\n";
+      }
+      echo '    </script>' . "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {
-        $_POST['id'] = '';
-        $_POST['name'] = '';
-        $_POST['date'] = '';
-        $_POST['client'] = '';
-        $_POST['manager'] = '';
+        $_POST['id']            = '';
+        $_POST['name']          = '';
+        $_POST['date']          = '';
+        $_POST['client']        = '';
+        $_POST['manager']       = '';
         $_POST['event_planner'] = '';
-        $_POST['dj'] = '';
-        $_POST['theme'] = '';
-        $_POST['type'] = '';
-        $_POST['location'] = '';
-        $_POST['rental_fee'] = '';
-        $_POST['playlist'] = '';
+        $_POST['dj']            = '';
+        $_POST['theme']         = '';
+        $_POST['type']          = '';
+        $_POST['location']      = '';
+        $_POST['rental_fee']    = '';
+        $_POST['playlist']      = '';
       }
 
-      echo '    <form method="post" action="event.php">' . "\n";
-      echo '      <input type="number" name="id"            value="' . htmlspecialchars(trim($_POST['id']            ?? '')) .'" placeholder="Event ID"         min="1" step="1">'                  . "\n";
-      echo '      <input type="text"   name="name"          value="' . htmlspecialchars(trim($_POST['name']          ?? '')) .'" placeholder="Name"             maxlength="255">'                   . "\n";
-      echo '      <input type="date"   name="date"          value="' . htmlspecialchars(trim($_POST['date']          ?? '')) .'" placeholder="Date">'                                               . "\n";
-      echo '      <input type="number" name="client"        value="' . htmlspecialchars(trim($_POST['client']        ?? '')) .'" placeholder="Client ID"        min="1" step="1">'                  . "\n";
-      echo '      <input type="number" name="manager"       value="' . htmlspecialchars(trim($_POST['manager']       ?? '')) .'" placeholder="Manager ID"       min="1" step="1">'                  . "\n";
-      echo '      <input type="number" name="event_planner" value="' . htmlspecialchars(trim($_POST['event_planner'] ?? '')) .'" placeholder="Event planner ID" min="1" step="1">'                  . "\n";
-      echo '      <input type="number" name="dj"            value="' . htmlspecialchars(trim($_POST['dj']            ?? '')) .'" placeholder="DJ ID"            min="1" step="1">'                  . "\n";
-      echo '      <input type="text"   name="theme"         value="' . htmlspecialchars(trim($_POST['theme']         ?? '')) .'" placeholder="Theme"            maxlength="255">'                   . "\n";
-      echo '      <input type="text"   name="type"          value="' . htmlspecialchars(trim($_POST['type']          ?? '')) .'" placeholder="Type"             maxlength="255">'                   . "\n";
-      echo '      <input type="number" name="location"      value="' . htmlspecialchars(trim($_POST['location']      ?? '')) .'" placeholder="Location ID"      min="1" step="1">'                  . "\n";
-      echo '      <input type="number" name="rental_fee"    value="' . htmlspecialchars(trim($_POST['rental_fee']    ?? '')) .'" placeholder="Rental fee"       min="0" max="9999999" step="0.01">' . "\n";
-      echo '      <input type="text"   name="playlist"      value="' . htmlspecialchars(trim($_POST['playlist']      ?? '')) .'" placeholder="Playlist"         maxlength="255">'                   . "\n";
-      echo '      <input type="submit" name="submit"        value="Filter">'                                                                                                . "\n";
-      echo '      <input type="submit" name="reset"         value="Reset">'                                                                                                 . "\n";
-      echo '    </form>' . "\n";
+      echo '    <button class="collapsible"> Filters </button>'                                                                                                                             . "\n";
+      echo '    <div class="content">'                                                                                                                                                      . "\n";
+      echo '      <form method="post" action="event.php">'                                                                                                                                  . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=id>            ID:               </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="id"            name="id"            value="' . htmlspecialchars(trim($_POST['id']            ?? '')) .'" min="1" step="1">'                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=name>          Name:             </label>'                                                                                                                 . "\n";
+      echo '          <input type="text"   id="name"          name="name"          value="' . htmlspecialchars(trim($_POST['name']          ?? '')) .'" maxlength="255">'                   . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=date>          Date:             </label>'                                                                                                                 . "\n";
+      echo '          <input type="date"   id="date"          name="date"          value="' . htmlspecialchars(trim($_POST['date']          ?? '')) .'" >'                                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=client>        Client ID:        </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="client"        name="client"        value="' . htmlspecialchars(trim($_POST['client']        ?? '')) .'" min="1" step="1">'                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=manager>       Manager ID:       </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="manager"       name="manager"       value="' . htmlspecialchars(trim($_POST['manager']       ?? '')) .'" min="1" step="1">'                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=event_planner> Event planner ID: </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="event_planner" name="event_planner" value="' . htmlspecialchars(trim($_POST['event_planner'] ?? '')) .'" min="1" step="1">'                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=dj>            DJ ID:            </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="dj"            name="dj"            value="' . htmlspecialchars(trim($_POST['dj']            ?? '')) .'" min="1" step="1">'                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=theme>         Theme:            </label>'                                                                                                                 . "\n";
+      echo '          <input type="text"   id="theme"         name="theme"         value="' . htmlspecialchars(trim($_POST['theme']         ?? '')) .'" maxlength="255">'                   . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=type>          Type:             </label>'                                                                                                                 . "\n";
+      echo '          <input type="text"   id="type"          name="type"          value="' . htmlspecialchars(trim($_POST['type']          ?? '')) .'" maxlength="255">'                   . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=location>      Location ID:      </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="location"      name="location"      value="' . htmlspecialchars(trim($_POST['location']      ?? '')) .'" min="1" step="1">'                  . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=rental_fee>    Rental fee:       </label>'                                                                                                                 . "\n";
+      echo '          <input type="number" id="rental_fee"    name="rental_fee"    value="' . htmlspecialchars(trim($_POST['rental_fee']    ?? '')) .'" min="0" max="9999999" step="0.01">' . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <p>'                                                                                                                                                                    . "\n";
+      echo '          <label for=playlist>      Playlist:         </label>'                                                                                                                 . "\n";
+      echo '          <input type="text"   id="playlist"      name="playlist"      value="' . htmlspecialchars(trim($_POST['playlist']      ?? '')) .'" maxlength="255">'                   . "\n";
+      echo '        </p>'                                                                                                                                                                   . "\n";
+      echo '        <input   type="submit" id="submit"        name="submit"        value="Filter">'                                                                                         . "\n";
+      echo '        <input   type="submit" id="reset"         name="reset"         value="Reset">'                                                                                          . "\n";
+      echo '      </form>'                                                                                                                                                                  . "\n";
+      echo '    </div>'                                                                                                                                                                     . "\n";
 
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
 
@@ -120,7 +154,6 @@
       $statement = $bdd->prepare($sql);
       $statement->execute($filters);
       
-      echo "\n";
       echo '    <table>';
       echo '      <tr>';
       echo '        <th> Event ID         </th>' . "\n";
@@ -157,4 +190,5 @@
       echo '    </table>' . "\n";
     ?>
   </body>
+  <script src="../javascript/see.js"></script>
 </html>

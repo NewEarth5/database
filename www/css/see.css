@@ -57,20 +57,20 @@ tr:nth-child(even) {
   height: 5px;
 }
 
-form {
-  display: table;
-}
-
-p {
+.content p {
   display: table-row;
 }
 
-label {
+.content label {
   display: table-cell;
   padding: 5px;
 }
 
-input {
+.content input {
   display: table-cell;
   padding: 0px;
+}
+
+.content input[type="submit"] {
+  margin: 0 5px;
 }

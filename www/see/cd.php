@@ -4,9 +4,17 @@
     <title>List of CD details</title>
     <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
-  <body>
-    <?php
+  <body><?php
       echo "\n";
+      echo '    <script>' . "\n";
+      if (!isset($_POST['submit']) or isset($_POST['reset'])) {
+        echo '      sessionStorage.setItem("filterMenuOpen", "false");' . "\n";
+      } else {
+        echo '      if (sessionStorage.getItem("filterMenuOpen") === "true") {' . "\n";
+        echo '        document.write(\'<style id="temp-collapsible"> .content { max-height: none !important; transition: none !important; } </style>\');' . "\n";
+        echo '      }' . "\n";
+      }
+      echo '    </script>' . "\n";
       if(!isset($_POST['submit']) or isset($_POST['reset'])) {
         $_POST['cd_number']       = '';
         $_POST['title']           = '';
@@ -24,23 +32,23 @@
       echo '    <div class="content">'                                                                                                                                                         . "\n";
       echo '      <form method="post" action="cd.php">'                                                                                                                                        . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="cd_number">       CD ID: </label>'                                                                                                                           . "\n";
+      echo '          <label for="cd_number">       CD ID:            </label>'                                                                                                                . "\n";
       echo '          <input type="number" id="cd_number"       name="cd_number"       value="' . htmlspecialchars(trim($_POST['cd_number']       ?? '')) .'" min="1" step="1">'               . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="title">           Title: </label>'                                                                                                                           . "\n";
+      echo '          <label for="title">           Title:            </label>'                                                                                                                . "\n";
       echo '          <input type="text"   id="title"           name="title"           value="' . htmlspecialchars(trim($_POST['title']           ?? '')) .'" maxlength="255">'                . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="producer">        Producer: </label>'                                                                                                                        . "\n";
+      echo '          <label for="producer">        Producer:         </label>'                                                                                                                . "\n";
       echo '          <input type="text"   id="producer"        name="producer"        value="' . htmlspecialchars(trim($_POST['producer']        ?? '')) .'" maxlength="255">'                . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="year">            Year: </label>'                                                                                                                            . "\n";
+      echo '          <label for="year">            Year:             </label>'                                                                                                                . "\n";
       echo '          <input type="number" id="year"            name="year"            value="' . htmlspecialchars(trim($_POST['year']            ?? '')) .'" min="1901" max="2155" step="1">' . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="duration_total">  Total duration: </label>'                                                                                                                  . "\n";
+      echo '          <label for="duration_total">  Total duration:   </label>'                                                                                                                . "\n";
       echo '          <input type="time"   id="duration_total"  name="duration_total"  value="' . htmlspecialchars(trim($_POST['duration_total']  ?? '')) .'" step="1">'                       . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
@@ -56,17 +64,15 @@
       echo '          <input type="time"   id="duration_avg"    name="duration_avg"    value="' . htmlspecialchars(trim($_POST['duration_avg']    ?? '')) .'" step="1">'                       . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="playlist_amount"> Playlist amount: </label>'                                                                                                                 . "\n";
+      echo '          <label for="playlist_amount"> Playlist amount:  </label>'                                                                                                                . "\n";
       echo '          <input type="number" id="playlist_amount" name="playlist_amount" value="' . htmlspecialchars(trim($_POST['playlist_amount'] ?? '')) .'" min=0 step="1">'                 . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
       echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <label for="genres">          Genres: </label>'                                                                                                                          . "\n";
+      echo '          <label for="genres">          Genres:           </label>'                                                                                                                . "\n";
       echo '          <input type="text"   id="genres"          name="genres"          value="' . htmlspecialchars(trim($_POST['genres']          ?? '')) .'">'                                . "\n";
       echo '        </p>'                                                                                                                                                                      . "\n";
-      echo '        <p>'                                                                                                                                                                       . "\n";
-      echo '          <input type="submit" id="submit"          name="submit"          value="Filter">'                                                                                        . "\n";
-      echo '          <input type="submit" id="reset"           name="reset"           value="Reset">'                                                                                         . "\n";
-      echo '        </p>'                                                                                                                                                                      . "\n";
+      echo '        <input   type="submit" id="submit"          name="submit"          value="Filter">'                                                                                        . "\n";
+      echo '        <input   type="submit" id="reset"           name="reset"           value="Reset">'                                                                                         . "\n";
       echo '      </form>'                                                                                                                                                                     . "\n";
       echo '    </div>'                                                                                                                                                                        . "\n";
 
@@ -180,7 +186,6 @@
       $statement = $bdd->prepare($sql);
       $statement->execute($filters);
       
-      echo "\n";
       echo '    <table>' . "\n";
       echo '      <tr>' . "\n";
       echo '        <th> CD ID            </th>' . "\n";
@@ -210,21 +215,6 @@
       }
       echo '    </table>' . "\n";
     ?>
-    <script>
-      var coll = document.getElementsByClassName("collapsible");
-      var i;
-
-      for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var content = this.nextElementSibling;
-          if (content.style.maxHeight){
-            content.style.maxHeight = null;
-          } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-          }
-        });
-      } 
-    </script>
   </body>
+  <script src="../javascript/see.js"></script>
 </html>
