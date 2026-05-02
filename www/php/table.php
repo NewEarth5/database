@@ -38,7 +38,6 @@
     function show($indent, $isCollapsable, $showLabel, $showReset) {
       if (count($this->filters) > 0) {
         $this->initialise();
-        if ($isCollapsable) $this->smoothFilter($indent);
         $this->filter($indent, $isCollapsable, $showLabel, $showReset);
         $this->update();
       }

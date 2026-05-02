@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php include('../php/table.php'); ?>
-    <title> List of Clients </title>
+    <title> List of Events </title>
     <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
   <body><?php echo "\n";

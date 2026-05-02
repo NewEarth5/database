@@ -9,59 +9,59 @@
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
       $sql = 'WITH RECURSIVE
       SongStats (`cd_number`, `duration_tot`, `duration_max`, `duration_min`, `duration_avg`) AS (
-          SELECT
-            `cd_number`,
-            SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))),
-            MAX(`duration`),
-            MIN(`duration`),
-            SEC_TO_TIME(AVG(TIME_TO_SEC(`duration`)))
-          FROM `Song`
-          GROUP BY `cd_number`
-        ),
-        PlaylistCount (`cd_number`, `playlist_amount`) AS (
-          SELECT
-            `cd_number`,
-            COUNT(*)
-          FROM `Contains`
-          GROUP BY `cd_number`
-        ),
-        GenreRecursive (`cd_number`, `genre_name`) AS (
-          SELECT DISTINCT
-            `cd_number`,
-            `genre`
-          FROM `Song`
-          WHERE `genre` IS NOT NULL
-          UNION
-          SELECT
-            `GenreRecursive`.`cd_number`,
-            `Specializes`.`genre`
-          FROM `GenreRecursive`
-          JOIN `Specializes` ON `Specializes`.`subgenre` = `GenreRecursive`.`genre_name`
-        ),
-        GenreList (`cd_number`, `genres`) AS (
-          SELECT
-            `cd_number`,
-            GROUP_CONCAT(DISTINCT `genre_name` ORDER BY `genre_name` SEPARATOR ", ")
-          FROM `GenreRecursive`
-          GROUP BY `cd_number`
-        )
         SELECT
-          `CD`.`cd_number`,
-          `CD`.`title`,
-          `CD`.`producer`,
-          `CD`.`year`,
-          `CD`.`copies`,
-          COALESCE(`SongStats`.`duration_tot`,        "N/A") AS `duration_tot`,
-          COALESCE(`SongStats`.`duration_max`,        "N/A") AS `duration_max`,
-          COALESCE(`SongStats`.`duration_min`,        "N/A") AS `duration_min`,
-          COALESCE(`SongStats`.`duration_avg`,        "N/A") AS `duration_avg`,
-          COALESCE(`PlaylistCount`.`playlist_amount`, 0)     AS `playlist_amount`,
-          COALESCE(`GenreList`.`genres`,              "N/A") AS `genres`
-        FROM `CD`
-        LEFT JOIN `SongStats`     ON `SongStats`.`cd_number`     = `CD`.`cd_number`
-        LEFT JOIN `PlaylistCount` ON `PlaylistCount`.`cd_number` = `CD`.`cd_number`
-        LEFT JOIN `GenreList`     ON `GenreList`.`cd_number`     = `CD`.`cd_number`
-        WHERE 1=1';
+          `cd_number`,
+          SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))),
+          MAX(`duration`),
+          MIN(`duration`),
+          SEC_TO_TIME(AVG(TIME_TO_SEC(`duration`)))
+        FROM `Song`
+        GROUP BY `cd_number`
+      ),
+      PlaylistCount (`cd_number`, `playlist_amount`) AS (
+        SELECT
+          `cd_number`,
+          COUNT(*)
+        FROM `Contains`
+        GROUP BY `cd_number`
+      ),
+      GenreRecursive (`cd_number`, `genre_name`) AS (
+        SELECT DISTINCT
+          `cd_number`,
+          `genre`
+        FROM `Song`
+        WHERE `genre` IS NOT NULL
+        UNION
+        SELECT
+          `GenreRecursive`.`cd_number`,
+          `Specializes`.`genre`
+        FROM `GenreRecursive`
+        JOIN `Specializes` ON `Specializes`.`subgenre` = `GenreRecursive`.`genre_name`
+      ),
+      GenreList (`cd_number`, `genres`) AS (
+        SELECT
+          `cd_number`,
+          GROUP_CONCAT(DISTINCT `genre_name` ORDER BY `genre_name` SEPARATOR ", ")
+        FROM `GenreRecursive`
+        GROUP BY `cd_number`
+      )
+      SELECT
+        `CD`.`cd_number`,
+        `CD`.`title`,
+        `CD`.`producer`,
+        `CD`.`year`,
+        `CD`.`copies`,
+        COALESCE(`SongStats`.`duration_tot`,        "N/A") AS `duration_tot`,
+        COALESCE(`SongStats`.`duration_max`,        "N/A") AS `duration_max`,
+        COALESCE(`SongStats`.`duration_min`,        "N/A") AS `duration_min`,
+        COALESCE(`SongStats`.`duration_avg`,        "N/A") AS `duration_avg`,
+        COALESCE(`PlaylistCount`.`playlist_amount`, 0)     AS `playlist_amount`,
+        COALESCE(`GenreList`.`genres`,              "N/A") AS `genres`
+      FROM `CD`
+      LEFT JOIN `SongStats`     ON `SongStats`.`cd_number`     = `CD`.`cd_number`
+      LEFT JOIN `PlaylistCount` ON `PlaylistCount`.`cd_number` = `CD`.`cd_number`
+      LEFT JOIN `GenreList`     ON `GenreList`.`cd_number`     = `CD`.`cd_number`
+      WHERE 1=1';
 
       $table = new Table('cd.php', $bdd, $sql);
 
