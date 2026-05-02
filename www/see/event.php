@@ -37,7 +37,7 @@
       $table->add_filter('rental_fee',    'number', FALSE, 'rental_fee',    '=',    '',  '',  'min="0" max="9999999" step="0.01"');
       $table->add_filter('playlist',      'text',   FALSE, 'playlist',      'LIKE', '%', '%', 'maxlength="255"');
 
-      $table->show(2, TRUE, TRUE, TRUE);
+      $table->show();
     ?>
     <script src="../javascript/see.js"></script>
   </body>

@@ -23,7 +23,7 @@
       $table->add_filter('email_address', 'text',   FALSE, 'email_address', 'LIKE', '%', '%', 'maxlength="255"');
       $table->add_filter('phone_number',  'tel',    FALSE, 'phone_number',  'LIKE', '%', '%', 'maxlength="20"');
 
-      $table->show(2, TRUE, TRUE, TRUE);
+      $table->show();
     ?>
     <script src="../javascript/see.js"></script>
   </body>

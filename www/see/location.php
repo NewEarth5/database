@@ -24,7 +24,7 @@
       $table->add_filter('postal_code', 'text',   FALSE, 'postal_code', 'LIKE', '%', '%', 'maxlength="12"');
       $table->add_filter('country',     'text',   FALSE, 'country',     'LIKE', '%', '%', 'maxlength="255"');
 
-      $table->show(2, TRUE, TRUE, TRUE);
+      $table->show();
     ?>
     <script src="../javascript/see.js"></script>
   </body>

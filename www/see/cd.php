@@ -89,7 +89,7 @@
       $table->add_filter('playlist_amount', 'number', FALSE, 'COALESCE(PlaylistCount.playlist_amount, 0)', '=',    '',  '',  'min=0 step="1"');
       $table->add_filter('genres',          'text',   FALSE, 'GenreList.genres',                           'LIKE', '%', '%', '');
 
-      $table->show(2, TRUE, TRUE, TRUE);
+      $table->show();
     ?>
     <script src="../javascript/see.js"></script>
   </body>
