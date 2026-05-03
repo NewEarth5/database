@@ -12,6 +12,8 @@
     private $perPage = 20;
     private $totalRows = 0;
     private $maxPages = 0;
+    private $sortColumns = [];
+    private $doSubquery = false;
 
     function __construct($page, $bdd, $sql) {
       $this->page = $page;
@@ -39,8 +41,24 @@
       ];
     }
 
+    function add_sort($column, $direction) {
+      $this->sortColumns[] = [
+        'column' => $column,
+        'direction' => $direction
+      ];
+    }
+
+    function doSubquery() {
+      $this->doSubquery = TRUE;
+    }
+
     private function handleRequests() {
-      if (isset($_GET['sort'])) $this->sort = $_GET['sort'];
+      if (isset($_GET['sort'])) {
+        $this->sort = $_GET['sort'];
+      } elseif (!empty($this->sortColumns)) {
+        $this->sort = $this->sortColumns[0]['column'];
+        $this->direction = $this->sortColumns[0]['direction'];
+      }
 
       if (isset($_GET['dir']) && in_array(strtoupper($_GET['dir']), ['ASC', 'DESC'])) $this->direction = strtoupper($_GET['dir']);
 
@@ -63,8 +81,8 @@
     }
 
     private function buildQueryFilter() {
-      $sql = $this->sql;
       $this->params = [];
+      $conditions = ['1=1'];
 
       foreach ($this->columns as $column) {
         if (isset($this->filters[$column['id']])) {
@@ -72,23 +90,33 @@
 
           if (trim($value) !== '') {
             $filter = $this->filters[$column['id']];
-            $sql .= ' AND ' . $filter['table'] . ' ' . $filter['relationship'] . ' :' . $column['name'];
+            $conditions[] = $filter['table'] . ' ' . $filter['relationship'] . ' :' . $column['name'];
             $this->params[':' . $column['name']] = $filter['prefix'] . trim($_GET[$column['name']]) . $filter['postfix'];
           }
         }
       }
-
-      return $sql;
+      
+      if ($this->doSubquery) return 'SELECT * FROM (' . $this->sql . ') AS filter_sub WHERE ' . implode(' AND ', $conditions);
+      
+      return $this->sql . ' WHERE ' . implode(' AND ', $conditions);
     }
 
     private function buildQuery() {
       $sql = $this->buildQueryFilter();
+      $allowed = array_column($this->columns, 'name');
+      $orderParts = [];
 
-      if ($this->sort !== null) {
-        $allowed = array_column($this->columns, 'name');
-
-        if (in_array($this->sort, $allowed) && in_array($this->direction, ['ASC', 'DESC'])) $sql .= ' ORDER BY ' . $this->sort . ' ' . $this->direction;
+      if ($this->sort !== null && in_array($this->sort, $allowed) && in_array($this->direction, ['ASC', 'DESC'])) {
+        $orderParts[] = $this->sort . ' ' . $this->direction;
       }
+
+      foreach ($this->sortColumns as $sortColumn) {
+        if ($sortColumn['column'] !== $this->sort && in_array($sortColumn['column'], $allowed) && in_array($sortColumn['direction'], ['ASC', 'DESC'])) {
+          $orderParts[] = $sortColumn['column'] . ' ' . $sortColumn['direction'];
+        }
+      }
+
+      if (!empty($orderParts)) $sql .= ' ORDER BY ' . implode(', ', $orderParts);
 
       $offset = ($this->pageNum - 1) * $this->perPage;
       $sql .= ' LIMIT ' . $this->perPage . ' OFFSET ' . $offset;

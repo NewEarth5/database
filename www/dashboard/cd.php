@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php include('../php/table.php'); ?>
-    <title> List of Clients </title>
+    <title> CD dashboard </title>
     <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
   <body><?php echo "\n";
@@ -49,6 +49,8 @@
       $table->add_column('title',       'title',       'Title');
       $table->add_column('copies',      'copies',      'Copies');
       $table->add_column('used_copies', 'used_copies', 'Number of used copies');
+
+      $table->add_sort('date', 'DESC');
 
       $table->add_filter('date',        'date',   FALSE, 'DateRange.date',                   '=',    '',  '',  '');
       $table->add_filter('cd_number',   'number', FALSE, 'CD.cd_number',                     '=',    '',  '',  'min="1" step="1"');

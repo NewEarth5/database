@@ -60,8 +60,7 @@
       FROM `CD`
       LEFT JOIN `SongStats`     ON `SongStats`.`cd_number`     = `CD`.`cd_number`
       LEFT JOIN `PlaylistCount` ON `PlaylistCount`.`cd_number` = `CD`.`cd_number`
-      LEFT JOIN `GenreList`     ON `GenreList`.`cd_number`     = `CD`.`cd_number`
-      WHERE 1=1';
+      LEFT JOIN `GenreList`     ON `GenreList`.`cd_number`     = `CD`.`cd_number`';
 
       $table = new Table('cd.php', $bdd, $sql);
 

@@ -7,7 +7,7 @@
   </head>
   <body><?php echo "\n";
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
-      $sql = 'SELECT * FROM `Event` WHERE 1=1';
+      $sql = 'SELECT * FROM `Event`';
 
       $table = new Table('event.php', $bdd, $sql);
 
