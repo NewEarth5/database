@@ -134,13 +134,6 @@
       }
       echo str_repeat(" ", 2 * $indent) . '<form method="get" action="' . $this->page . '">' . "\n";
       $indent++;
-      
-      foreach (['sort', 'dir', 'page'] as $key) {
-        if (isset($_GET[$key])) {
-          echo str_repeat(" ", 2 * $indent) . '<input type="hidden" name="' . $key . '" value="' . htmlspecialchars($_GET[$key]) . '">' . "\n";
-        }
-      }
-      echo str_repeat(" ", 2 * $indent) . '<input type="hidden" name="page" value="1">' . "\n";
 
       foreach ($this->columns as $column) {
         if (isset($this->filters[$column['id']])) {
@@ -178,6 +171,13 @@
         $url = $this->buildURL($overrides, TRUE);
         echo str_repeat(" ", 2 * $indent) . '<a href="' . $url . '" class="button"> Reset </a>' . "\n";
       }
+      
+      foreach (['sort', 'dir', 'page'] as $key) {
+        if (isset($_GET[$key])) {
+          echo str_repeat(" ", 2 * $indent) . '<input type="hidden" name="' . $key . '" value="' . htmlspecialchars($_GET[$key]) . '">' . "\n";
+        }
+      }
+      echo str_repeat(" ", 2 * $indent) . '<input type="hidden" name="page" value="1">' . "\n";
 
       $indent--;
       echo str_repeat(" ", 2 * $indent) . '</form>' . "\n";
@@ -269,16 +269,15 @@
 
       echo str_repeat(" ", 2 * $indent) . '<form method="get" action="' . $this->page . '" class="page-jump" style="display:inline;">' . "\n";
       $indent++;
+      echo str_repeat(" ", 2 * $indent) . 'Page ' . "\n";
+      echo str_repeat(" ", 2 * $indent) . '<input type="number" name="page" min="1" max="' . $this->maxPages . '" value="' . $this->pageNum . '" style="width:60px;">' . "\n";
+      echo str_repeat(" ", 2 * $indent) . '/ ' . $this->maxPages . "\n";
 
       foreach ($_GET as $key => $value) {
         if ($key !== 'page') {
           echo str_repeat(" ", 2 * $indent) . '<input type="hidden" name="' . $key . '" value="' . htmlspecialchars($value) . '">' . "\n";
         }
       }
-      echo str_repeat(" ", 2 * $indent) . 'Page ';
-      echo str_repeat(" ", 2 * $indent) . '<input type="number" name="page" min="1" max="' . $this->maxPages . '" value="' . $this->pageNum . '" style="width:60px;">' . "\n";
-      echo ' / ' . $this->maxPages . "\n";
-      // echo str_repeat(" ", 2 * $indent) . '<button type="submit"> Go </button>' . "\n";
 
       $indent--;
       echo str_repeat(" ", 2 * $indent) . '</form>' . "\n";

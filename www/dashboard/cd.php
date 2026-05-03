@@ -40,8 +40,7 @@
       CROSS JOIN CD
       LEFT JOIN `UsedCDs`
         ON `UsedCDs`.`date` = `DateRange`.`date`
-        AND `UsedCDs`.`cd_number` = `CD`.`cd_number`
-      ORDER BY `date` DESC';
+        AND `UsedCDs`.`cd_number` = `CD`.`cd_number`';
 
       $table = new Table('cd.php', $bdd, $sql);
 
@@ -51,11 +50,11 @@
       $table->add_column('copies',      'copies',      'Copies');
       $table->add_column('used_copies', 'used_copies', 'Number of used copies');
 
-      $table->add_filter('date',        'date',   FALSE, 'DateRange.date',      '=',    '',  '',  '');
-      $table->add_filter('cd_number',   'number', FALSE, 'CD.cd_number',        '=',    '',  '',  'min="1" step="1"');
-      $table->add_filter('title',       'text',   FALSE, 'CD.title',            'LIKE', '%', '%', 'maxisze="255"');
-      $table->add_filter('copies',      'number', FALSE, 'CD.copies',           '=',    '',  '',  'min="0" step="1"');
-      $table->add_filter('used_copies', 'number', FALSE, 'UsedCDs.used_copies', '=',    '',  '',  'min="0" step="1"');
+      $table->add_filter('date',        'date',   FALSE, 'DateRange.date',                   '=',    '',  '',  '');
+      $table->add_filter('cd_number',   'number', FALSE, 'CD.cd_number',                     '=',    '',  '',  'min="1" step="1"');
+      $table->add_filter('title',       'text',   FALSE, 'CD.title',                         'LIKE', '%', '%', 'maxlength="255"');
+      $table->add_filter('copies',      'number', FALSE, 'CD.copies',                        '=',    '',  '',  'min="0" step="1"');
+      $table->add_filter('used_copies', 'number', FALSE, 'COALESCE(UsedCDs.used_copies, 0)', '=',    '',  '',  'min="0" step="1"');
 
       $table->show();
     ?>
