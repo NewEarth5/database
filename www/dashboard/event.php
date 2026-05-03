@@ -35,7 +35,7 @@
       $table->add_column('cost',   'cost',   'Cost of requests');
       $table->add_column('total',  'total',  'Total price');
 
-      $table->add_sort('date', 'ASC');
+      $table->add_sort('date', 'DESC');
       $table->add_sort('name', 'ASC');
 
       $table->add_filter('id',     'number', FALSE, 'id',     '=',    '',  '',  'min="1" step="1"');
