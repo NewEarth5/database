@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> Edit Songs </title>
+    <title> Editeur de musique </title>
   </head>
   <body><?php
       echo "\n";
@@ -18,7 +18,7 @@
           $bdd->commit();
         } catch (\PDOException $error) {
           $bdd->rollBack();
-          echo '    <script> alert("Error: ' . htmlspecialchars($error->getMessage()) . '") </script>';
+          echo '    <script> alert("Erreur : ' . htmlspecialchars($error->getMessage()) . '") </script>';
         }
       }
 
@@ -37,7 +37,7 @@
           $bdd->commit();
         } catch (\PDOException $error) {
           $bdd->rollBack();
-          echo '    <script> alert("Error: ' . htmlspecialchars($error->getMessage()) . '") </script>';
+          echo '    <script> alert("Erreur : ' . htmlspecialchars($error->getMessage()) . '") </script>';
         }
       }
 
@@ -57,9 +57,9 @@
         } catch (\PDOException $error) {
             $bdd->rollBack();
           if ($error->errorInfo[0] == '23000' and $error->errorInfo[1] == 1062) {
-            echo '    <script> alert("A song already has this track number on this CD.") </script>';
+            echo '    <script> alert("Une chanson utilise déjà ce numéro de piste sur ce CD.") </script>';
           } else {
-            echo '    <script> alert("Error: ' . htmlspecialchars($error->getMessage()) . '") </script>';
+            echo '    <script> alert("Erreur : ' . htmlspecialchars($error->getMessage()) . '") </script>';
           }
           $_POST['add'] = True;
         }
@@ -79,7 +79,7 @@
           echo '> ' . htmlspecialchars(trim($row['producer'] ?? '')) . ' | ' . htmlspecialchars(trim($row['title'] ?? '')) . ' - ' . htmlspecialchars(trim($row['year'] ?? '')) . ' (' . htmlspecialchars(trim($row['copies'] ?? '')) . ') </option>' . "\n";
         }
         echo '      </select>' . "\n";
-        echo '      <input type="submit" name="cd_submit" value="Select">' . "\n";
+        echo '      <input type="submit" name="cd_submit" value="Sélectionner">' . "\n";
         echo '    </form>' . "\n";
 
         if (isset($_POST['cd'])) {
@@ -99,12 +99,12 @@
               echo '> ' . htmlspecialchars(trim($row['artist'] ?? '')) . ' | ' . htmlspecialchars(trim($row['title'] ?? '')) . ' - ' . htmlspecialchars(trim($row['genre'] ?? '')) . ' (' . htmlspecialchars(trim($row['duration'] ?? '')) . ') </option>' . "\n";
             }
             echo '      </select>' . "\n";
-            echo '      <input type="submit" name="delete" value="Delete">' . "\n";
-            echo '      <input type="submit" name="edit"   value="Edit">'   . "\n";
+            echo '      <input type="submit" name="delete" value="Supprimer">' . "\n";
+            echo '      <input type="submit" name="edit"   value="Modifier">'   . "\n";
           } else {
-            echo '      The CD currently has no songs assigned to it' . "\n";
+            echo '      Ce CD n\'a actuellement aucune chanson assignée.' . "\n";
           }
-          echo '      <input type="submit" name="add"    value="Add">' . "\n";
+          echo '      <input type="submit" name="add"    value="Ajouter">' . "\n";
           echo '      <input type="hidden" name="cd"     value="' . $_POST['cd'] . '">' . "\n";
           echo '    </form>' . "\n";
 
@@ -124,9 +124,9 @@
             $song = $req_edit->fetch();
 
             echo '    <form method="post" action="song.php">' . "\n";
-            echo '      <input type="text" name="artist"   value="' . htmlspecialchars(trim($song['artist']   ?? '')) . '" placeholder="Artist"   maxlength="255">' . "\n";
-            echo '      <input type="text" name="title"    value="' . htmlspecialchars(trim($song['title']    ?? '')) . '"  placeholder="Title"    maxlength="255">' . "\n";
-            echo '      <input type="time" name="duration" value="' . htmlspecialchars(trim($song['duration'] ?? '')) . '" placeholder="Duration">'                 . "\n";
+            echo '      <input type="text" name="artist"   value="' . htmlspecialchars(trim($song['artist']   ?? '')) . '" placeholder="Artiste"   maxlength="255">' . "\n";
+            echo '      <input type="text" name="title"    value="' . htmlspecialchars(trim($song['title']    ?? '')) . '"  placeholder="Titre"    maxlength="255">' . "\n";
+            echo '      <input type="time" name="duration" value="' . htmlspecialchars(trim($song['duration'] ?? '')) . '" placeholder="Durée">'                 . "\n";
             if ($amount_genre > 0) {
               echo '      <select name="song_genre">' . "\n";
               foreach ($rows_genre as $row) {
@@ -136,7 +136,7 @@
               }
               echo '      </select>' . "\n";
             }
-            echo '      <input type="submit" name="save_edit" value="Save">' . "\n";
+            echo '      <input type="submit" name="save_edit" value="Enregistrer">' . "\n";
             echo '      <input type="hidden" name="cd"   value="' . $_POST['cd']   . '">' . "\n";
             echo '      <input type="hidden" name="song" value="' . $_POST['song'] . '">' . "\n";
             echo '    </form>' . "\n";
@@ -144,10 +144,10 @@
 
           if (isset($_POST['add'])) {
             echo '    <form method="post" action="song.php">' . "\n";
-            echo '      <input type="number" name="track_number" value="' . htmlspecialchars(trim($_POST['track_number'] ?? '')) . '" placeholder="Track number" min="1" step="1">' . "\n";
-            echo '      <input type="text"   name="artist"       value="' . htmlspecialchars(trim($_POST['artist']       ?? '')) . '" placeholder="Artist"       maxlength="255">'  . "\n";
-            echo '      <input type="text"   name="title"        value="' . htmlspecialchars(trim($_POST['title']        ?? '')) . '" placeholder="Title"        maxlength="255">'  . "\n";
-            echo '      <input type="time"   name="duration"     value="' . htmlspecialchars(trim($_POST['duration']     ?? '')) . '" placeholder="Duration"     step="1">'         . "\n";
+            echo '      <input type="number" name="track_number" value="' . htmlspecialchars(trim($_POST['track_number'] ?? '')) . '" placeholder="N° de piste" min="1" step="1">' . "\n";
+            echo '      <input type="text"   name="artist"       value="' . htmlspecialchars(trim($_POST['artist']       ?? '')) . '" placeholder="Artiste"       maxlength="255">'  . "\n";
+            echo '      <input type="text"   name="title"        value="' . htmlspecialchars(trim($_POST['title']        ?? '')) . '" placeholder="Titre"        maxlength="255">'  . "\n";
+            echo '      <input type="time"   name="duration"     value="' . htmlspecialchars(trim($_POST['duration']     ?? '')) . '" placeholder="Durée"     step="1">'         . "\n";
             if ($amount_genre > 0) {
               echo '      <select name="song_genre">' . "\n";
               foreach ($rows_genre as $row) {
@@ -157,13 +157,13 @@
               }
               echo '      </select>' . "\n";
             }
-            echo '      <input type="submit" name="save_add" value="Save">' . "\n";
+            echo '      <input type="submit" name="save_add" value="Enregistrer">' . "\n";
             echo '      <input type="hidden" name="cd"   value="' . $_POST['cd']   . '">' . "\n";
             echo '    </form>' . "\n";
           }
         }
       } else {
-        echo '    There are currently no CDs' . "\n";
+        echo '    Il n\'y a actuellement aucun CD disponible.' . "\n";
       }
     ?>
     <p style="margin: 20px;"><a href="../index.html">Retour à l'accueil</a></p>

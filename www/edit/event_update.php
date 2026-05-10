@@ -1,5 +1,4 @@
 <?php
-// 1. Connexion à la base de données
 try {
     $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -9,12 +8,10 @@ try {
 
 $message = "";
 
-// Fonction pour nettoyer les espaces ET les retours à la ligne
 function cleanName($str) {
     return trim(str_replace(["\n", "\r"], '', $str));
 }
 
-// 2. TRAITEMENT DU FORMULAIRE
 if (isset($_POST['update_event'])) {
     $event_id      = $_POST['event_id'];
     $dj_id         = $_POST['dj_id'];
@@ -23,34 +20,28 @@ if (isset($_POST['update_event'])) {
     $location_id   = $_POST['location_id'];
 
     try {
-        // 1. Récupérer la date de l'événement
         $stmt = $bdd->prepare("SELECT date FROM Event WHERE id = ?");
         $stmt->execute([$event_id]);
         $event_data = $stmt->fetch();
         $event_date = $event_data['date'];
 
-        // 2. Vérification DJ libre
         $checkDJ = $bdd->prepare("SELECT COUNT(*) FROM Event WHERE dj = ? AND date = ? AND id != ?");
         $checkDJ->execute([$dj_id, $event_date, $event_id]);
 
-        // 3. Vérification Planificateur libre
         $checkPlanner = $bdd->prepare("SELECT COUNT(*) FROM Event WHERE event_planner = ? AND date = ? AND id != ?");
         $checkPlanner->execute([$planner_id, $event_date, $event_id]);
 
-        // 4. Récupère le nom exact depuis la BDD en nettoyant les \n des deux côtés
         $playlist_final = null;
         if (!empty($playlist_name)) {
-            // On récupère toutes les playlists et on compare après nettoyage côté PHP
             $allPlaylists = $bdd->query("SELECT name FROM Playlist")->fetchAll(PDO::FETCH_COLUMN);
             foreach ($allPlaylists as $pl) {
                 if (cleanName($pl) === $playlist_name) {
-                    $playlist_final = $pl; // On garde le nom EXACT tel qu'il est en BDD (avec \n)
+                    $playlist_final = $pl;
                     break;
                 }
             }
         }
 
-        // 5. On stocke tous les résultats avant de comparer
         $djCount      = $checkDJ->fetchColumn();
         $plannerCount = $checkPlanner->fetchColumn();
 
@@ -68,7 +59,6 @@ if (isset($_POST['update_event'])) {
     }
 }
 
-// 3. CHARGEMENT DES DONNÉES
 $events = $bdd->query("SELECT id, name, date, dj, event_planner, location, playlist FROM Event ORDER BY date ASC")->fetchAll(PDO::FETCH_ASSOC);
 
 $djs = $bdd->query("SELECT DJ.id, CONCAT(Employee.first_name, ' ', Employee.last_name) as Fullname 
@@ -85,7 +75,6 @@ $locations = $bdd->query("SELECT id, city FROM Location ORDER BY city ASC")->fet
 
 $playlists = $bdd->query("SELECT name FROM Playlist ORDER BY name ASC")->fetchAll();
 
-// On encode les événements en JSON pour le JS
 $eventsJson = json_encode($events);
 ?>
 
