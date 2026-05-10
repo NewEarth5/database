@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php include('../php/table.php'); ?>
-    <title> CD dashboard </title>
+    <title> Tableau de bord CD </title>
     <link href="../css/see.css" type="text/css" rel="stylesheet" />
   </head>
   <body><?php echo "\n";
@@ -45,10 +45,10 @@
       $table = new Table('cd.php', $bdd, $sql);
 
       $table->add_column('date',        'date',        'Date');
-      $table->add_column('cd_number',   'cd_number',   'CD ID');
-      $table->add_column('title',       'title',       'Title');
-      $table->add_column('copies',      'copies',      'Copies');
-      $table->add_column('used_copies', 'used_copies', 'Number of used copies');
+      $table->add_column('cd_number',   'cd_number',   'ID du CD');
+      $table->add_column('title',       'title',       'Titre');
+      $table->add_column('copies',      'copies',      'Nombre de copies');
+      $table->add_column('used_copies', 'used_copies', 'Copies utilisées');
 
       $table->add_sort('date', 'DESC');
 
