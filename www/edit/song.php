@@ -166,5 +166,6 @@
         echo '    There are currently no CDs' . "\n";
       }
     ?>
+    <p style="margin: 20px;"><a href="../index.html">Retour à l'accueil</a></p>
   </body>
 </html>
