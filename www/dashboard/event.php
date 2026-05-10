@@ -7,6 +7,7 @@
   </head>
   <body><?php echo "\n";
       $bdd = new PDO('mysql:host=db;dbname=group17;charset=utf8', 'group17', '1234');
+      
       $sql = 'SELECT
         `Event`.`id`,
         `Event`.`name`,
@@ -18,7 +19,7 @@
         END AS `status`,
         COUNT(`Request`.`name`)                           AS count,
         COALESCE(SUM(`Request`.`price`), 0)               AS cost,
-        1500 + 0.05 * COALESCE(SUM(`Request`.`price`), 0) AS total
+        1500 + 1.05 * COALESCE(SUM(`Request`.`price`), 0) AS total
       FROM `Event`
       LEFT JOIN `Request` ON `Request`.`event_id` = `Event`.`id`
       GROUP BY `Event`.`id`, `Event`.`name`, `Event`.`date`';
@@ -48,6 +49,7 @@
 
       $table->show();
     ?>
+    <p style="margin: 20px;"><a href="../index.html">Retour à l'accueil</a></p>
     <script src="../javascript/see.js"></script>
   </body>
 </html>

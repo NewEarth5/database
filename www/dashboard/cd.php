@@ -60,6 +60,7 @@
 
       $table->show();
     ?>
+    <p style="margin: 20px;"><a href="../index.html">Retour à l'accueil</a></p>
     <script src="../javascript/see.js"></script>
   </body>
 </html>
