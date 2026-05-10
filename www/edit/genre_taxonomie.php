@@ -27,7 +27,6 @@
           $pairs    = [];
           $errors   = [];
 
-          // 1. Parsing et validation du format de chaque ligne
           foreach ($lines as $i => $line) {
               $line = trim($line);
               if (empty($line)) continue;
@@ -54,7 +53,6 @@
               $pairs[] = ['subgenre' => $subgenre, 'genre' => $genre];
           }
 
-          // 2. Vérification des cycles dans les paires soumises (A→B et B→A)
           $validPairs = [];
           foreach ($pairs as $pair) {
               $hasCycle = false;
@@ -71,7 +69,6 @@
               }
           }
 
-          // 3. Insertion en base dans une transaction
           if (!empty($validPairs)) {
               try {
                   $bdd->beginTransaction();
@@ -89,11 +86,9 @@
                       $subgenre = $pair['subgenre'];
                       $genre    = $pair['genre'];
 
-                      // Insérer les genres s'ils n'existent pas
                       $insertGenre->execute([$subgenre]);
                       $insertGenre->execute([$genre]);
 
-                      // Vérifier cycle avec la BDD existante (B est-il déjà subgenre de A ?)
                       $checkCycleDB->execute([$genre, $subgenre]);
                       if ($checkCycleDB->fetchColumn() > 0) {
                           $errors[] = "Cycle avec la BDD ignoré : \"" . htmlspecialchars($subgenre) . "\" → \"" . htmlspecialchars($genre) . "\" (relation inverse déjà existante)";
@@ -101,7 +96,6 @@
                           continue;
                       }
 
-                      // Vérifier si la relation existe déjà
                       $checkSpec->execute([$subgenre, $genre]);
                       if ($checkSpec->fetchColumn() > 0) {
                           $skipped++;
@@ -129,7 +123,6 @@
               }
           }
 
-          // Affichage des erreurs de format/cycle
           foreach ($errors as $err) {
               $messages[] = ['type' => 'error', 'text' => $err];
           }
