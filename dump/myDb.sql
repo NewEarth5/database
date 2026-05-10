@@ -1,11 +1,10 @@
 SET time_zone = "+00:00";
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 START TRANSACTION;
-
+SET FOREIGN_KEY_CHECKS = 0;
 CREATE TABLE `Theme` (
   `name` VARCHAR (255) NOT NULL,
   PRIMARY KEY (`name`)
@@ -349,7 +348,7 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/data/Location.csv'
 INTO TABLE `Location`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS
 (@id, @street, @city, @postal_code, @country, @comment)
 SET
@@ -358,7 +357,7 @@ SET
 `city`        = NULLIF (@city,        ''),
 `postal_code` = NULLIF (@postal_code, ''),
 `country`     = NULLIF (@country,     ''),
-`comment`     = NULLIF (@comment,     '');
+`comment`     = NULLIF(@comment,     '');
 
 LOAD DATA INFILE '/docker-entrypoint-initdb.d/data/Event.csv'
 INTO TABLE `Event`
@@ -395,6 +394,7 @@ SET
 `provider` = NULLIF (@provider, ''),
 `price`    = NULLIF (@price,    '');
 
+SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
